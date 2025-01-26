@@ -19,7 +19,7 @@ if (isGameOver(field)) {
     location.reload(); // ゲームをリロードして再スタート
 }
 
-const canvas = document.getElementById("ゲームキャンバス");
+const canvas = document.getElementById("gameCanvas");
 console.log(canvas); // キャンバス要素をコンソールに出力
 
 if (!canvas) {
