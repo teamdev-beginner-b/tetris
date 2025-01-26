@@ -18,3 +18,12 @@ if (isGameOver(field)) {
     alert("Game Over!"); // ゲームオーバーのメッセージを表示
     location.reload(); // ゲームをリロードして再スタート
 }
+
+const canvas = document.getElementById("ゲームキャンバス");
+console.log(canvas); // キャンバス要素をコンソールに出力
+
+if (!canvas) {
+  console.error("キャンバスが取得できませんでした。HTMLにIDが正しく設定されているか確認してください。");
+} else {
+  console.log("キャンバス要素が正常に取得できました。");
+}
