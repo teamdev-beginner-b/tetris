@@ -5,30 +5,21 @@ import { moveMino, rotateMino } from "./movement.js";
 // - event: キーボードイベントオブジェクト
 // - mino: 現在のミノオブジェクト（位置と回転情報を保持）
 // - field: 現在のフィールド情報（衝突判定などで利用）
-function handleKeyPress(event, mino, field) {
+export function handleKeyPress(event, mino, field) {
   const key = event.key; // 押されたキーを取得
 
   // ユーザーのキー入力に応じて、ミノの操作を実行
   switch (key) {
     case "ArrowLeft": // 左矢印キー
-      mino = moveMino(mino, "left"); // 左に移動
-      break;
+      return moveMino(mino, "left"); // 左に移動
     case "ArrowRight": // 右矢印キー
-      mino = moveMino(mino, "right"); // 右に移動
-      break;
+      return moveMino(mino, "right"); // 右に移動
     case "ArrowDown": // 下矢印キー
-      mino = moveMino(mino, "down"); // 下に移動
-      break;
+      return moveMino(mino, "down"); // 下に移動
     case "ArrowUp": // 上矢印キー
-      mino = rotateMino(mino); // ミノを回転
-      break;
+      return rotateMino(mino); // ミノを回転
     default:
       console.log("未対応のキー: " + key);
+      return mino; // 変更なし
   }
-
-  // 衝突判定やその他の処理をここで追加可能
-  return mino; // 更新されたミノオブジェクトを返す
 }
-
-// Exportして他のファイルから利用可能にする
-export { handleKeyPress };
