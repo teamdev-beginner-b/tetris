@@ -1,5 +1,5 @@
 // mino.js
-export const blocks = [
+const blocks = [
     {
         // I型テトリミノ
         shape: [
@@ -71,3 +71,4 @@ export const blocks = [
         color: "rgb(0, 0, 255)" // 青
     }
 ];
+export default blocks;
