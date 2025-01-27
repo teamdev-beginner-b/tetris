@@ -30,5 +30,30 @@
     <div id="score">Score: 0</div>
     <div id="next-mino" style="position: relative; width: 100px; height: 100px; border: 1px solid white; margin-bottom: 20px;"></div>
     <canvas id="gameCanvas" width="300" height="600"></canvas>
+
+    <script type="module">
+        import { GameLoop } from './gameLoop.js';
+        import { generateMino } from './generateMino.js';
+        import { Field } from './field.js';
+        import { handleKeyPress } from './handleKeyPress.js';
+        import { updateScore } from './score.js';
+
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        const field = new Field(ctx);
+        const gameLoop = new GameLoop(field, ctx);
+        const minoGenerator = generateMino();
+
+        document.addEventListener('keydown', (event) => {
+            handleKeyPress(event, field, minoGenerator);
+        });
+
+        function updateUI(score) {
+            document.getElementById('score').innerText = `Score: ${score}`;
+        }
+
+        gameLoop.start(updateUI);
+    </script>
 </body>
 </html>
