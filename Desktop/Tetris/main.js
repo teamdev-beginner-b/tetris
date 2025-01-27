@@ -2,7 +2,7 @@ import { GameLoop } from './gameLoop.js';
 import { generateMino } from './generateMino.js';
 import { Field } from './field.js';
 import { handleKeyPress } from './handleKeyPress.js';
-import { is_RowFull, updateScoreDisplay } from './line_clear.js'; // line_clear.jsから必要な関数をインポート
+import { is_RowFull, updateScoreDisplay } from './line_clear.js';
 
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
@@ -14,6 +14,38 @@ const minoGenerator = generateMino();
 document.addEventListener('keydown', (event) => {
     handleKeyPress(event, field, minoGenerator);
 });
+
+// ログレベルを定義
+const e = {
+    Info: 1,
+    Warning: 2,
+    Error: 4,
+    Debug: 8
+};
+
+const loglevel = e.Info | e.Warning | e.Error | e.Debug; // すべてのログレベルを有効にする
+
+// ログ出力用のオブジェクト
+const st = {
+    info(...t) {
+        if (loglevel & e.Info) console.info(...t);
+    },
+    warning(...t) {
+        if (loglevel & e.Warning) console.warn(...t);
+    },
+    error(...t) {
+        if (loglevel & e.Error) console.error(...t);
+    },
+    assert(t, ...n) {
+        if (loglevel & e.Debug) {
+            n.unshift(t);
+            console.assert(t, ...n);
+        }
+    },
+    debug(...t) {
+        if (loglevel & e.Debug) console.debug(...t);
+    }
+};
 
 // スコアを更新する関数
 function updateScore(score) {
