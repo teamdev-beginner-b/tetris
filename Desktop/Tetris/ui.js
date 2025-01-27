@@ -1,24 +1,28 @@
-// 次のミノを画面に表示する関数
-// 引数:
-// - nextMino: 次に登場するミノオブジェクト
 export function updateNextMinoDisplay(nextMino) {
     const nextMinoElem = document.getElementById("next-mino"); // 次のミノ表示用のHTML要素を取得
+    if (!nextMinoElem) {
+        console.error("Next mino element not found!");
+        return;
+    }
+
     nextMinoElem.innerHTML = ""; // 既存の表示をクリア
 
     // ミノのブロックを表示
-    for (let block of nextMino.shape[0]) { // 次のミノは初期回転状態を表示
-        const div = document.createElement("div"); // 各ブロック用のdivを作成
-        div.style.position = "absolute";
-        div.style.width = "20px"; // ブロックサイズ
-        div.style.height = "20px"; // ブロックサイズ
-        div.style.backgroundColor = nextMino.color; // ミノの色を設定
-        div.style.left = `${(block[0] + 2) * 20}px`; // 適切な位置にオフセット
-        div.style.top = `${(block[1] + 1) * 20}px`; // 適切な位置にオフセット
-        nextMinoElem.appendChild(div); // HTML要素に追加
+    if (nextMino && nextMino.shape && nextMino.shape[0]) {
+        for (let block of nextMino.shape[0]) { // 次のミノは初期回転状態を表示
+            const div = document.createElement("div"); // 各ブロック用のdivを作成
+            div.style.position = "absolute";
+            div.style.width = "20px"; // ブロックサイズ
+            div.style.height = "20px"; // ブロックサイズ
+            div.style.backgroundColor = nextMino.color; // ミノの色を設定
+            div.style.left = `${(block[0] + 2) * 20}px`; // 適切な位置にオフセット
+            div.style.top = `${(block[1] + 1) * 20}px`; // 適切な位置にオフセット
+            nextMinoElem.appendChild(div); // HTML要素に追加
+        }
+    } else {
+        console.error("Next mino is not properly defined!");
     }
 }
-
-// フィールドと現在のミノを描画する関数
 export function renderField(field, currentMino, canvasContext) {
     const blockSize = 30; // 各ブロックのサイズ
     const canvasWidth = field[0].length * blockSize; // キャンバスの幅
@@ -38,10 +42,14 @@ export function renderField(field, currentMino, canvasContext) {
     }
 
     // 現在のミノを描画
-    canvasContext.fillStyle = currentMino.color;
-    for (let block of currentMino.blocks) {
-        const x = block.x + currentMino.x;
-        const y = block.y + currentMino.y;
-        canvasContext.fillRect(x * blockSize, y * blockSize, blockSize, blockSize);
+    if (currentMino && currentMino.blocks) {
+        canvasContext.fillStyle = currentMino.color;
+        for (let block of currentMino.blocks) {
+            const x = block.x + currentMino.x;
+            const y = block.y + currentMino.y;
+            canvasContext.fillRect(x * blockSize, y * blockSize, blockSize, blockSize);
+        }
+    } else {
+        console.error("Current mino is not properly defined!");
     }
 }
