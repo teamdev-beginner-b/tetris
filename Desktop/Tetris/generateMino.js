@@ -1,4 +1,4 @@
-import { blocks } from "./mino.js";
+import {blocks} from "./mino.js";
 
 export function generateMino() {
     const randomIndex = Math.floor(Math.random() * blocks.length);
