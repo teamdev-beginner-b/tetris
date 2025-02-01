@@ -11,9 +11,8 @@ function updateScoreDisplay() {
     scoreElem.innerText = `Score: ${score}`; // スコアを表示
 }
 
-
 //ミノが横一列に並んだ時に消える機能
-function is_RowFull(stage){
+export function is_RowFull(stage) {
     for (let y = row - 1; y >= 0; ) {
         let filled = true;
         for (let x = 0; x < col; x++) {
@@ -38,6 +37,4 @@ function is_RowFull(stage){
             y--;
         }
     }
-
 }
-
