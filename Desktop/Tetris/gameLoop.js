@@ -1,7 +1,7 @@
-import renderField　from "./ui.js"; // UI描画関数をインポート
-import　generateMino　from "./generateMino.js";
-import　checkCollision　from "./collision.js";
-import　is_RowFull　from "./line_clear.js";
+import {renderField} from "./ui.js"; // UI描画関数をインポート
+import {generateMino}　from "./generateMino.js";
+import {checkCollision}　from "./collision.js";
+import {is_RowFull}　from "./line_clear.js";
 
 export function gameLoop(field, currentMino, canvasContext) {
     let lastTime = 0;
