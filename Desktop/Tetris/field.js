@@ -13,4 +13,5 @@ class Block {
   }
 }
 
-export default Block;
+// Named Export に変更
+export { Block };
