@@ -1,40 +1,40 @@
-//stageの横の長さ
-const row = 20;
-//stageの縦の長さ
-const col = 10;
-//スコア
+const col = 10; // 横の長さ
+const row = 20; // 縦の長さ
 let score = 0;
 
-// スコアを画面に表示するための関数
-function updateScoreDisplay() {
-    const scoreElem = document.getElementById("score"); // HTML要素を取得
-    scoreElem.innerText = `Score: ${score}`; // スコアを表示
+export function updateScoreDisplay(newScore) {
+  console.log("updateScoreDisplay", newScore);
+  const scoreElem = document.getElementById("score");
+  scoreElem.innerText = `Score: ${newScore}`;
 }
 
-//ミノが横一列に並んだ時に消える機能
-export function is_RowFull(stage) {
-    for (let y = row - 1; y >= 0; ) {
-        let filled = true;
-        for (let x = 0; x < col; x++) {
-            if (stage[x][y] == null) {
-                filled = false;
-                break;
-            }
-        }
-        if (filled) {
-            score += 100;
-            updateScoreDisplay();
-            
-            for (let y2 = y; y2 > 0; y2--) {
-                for (let x = 0; x < col; x++) {
-                    stage[x][y2] = stage[x][y2 - 1];
-                }
-            }
-            for (let x = 0; x < col; x++) {
-                stage[x][0] = null;
-            }
-        } else {
-            y--;
-        }
+export function is_RowFull(field) {
+  const grid = field.grid;
+  // 下の行からチェックしていく
+  for (let y = row - 1; y >= 0; y--) {
+    let filled = true;
+    for (let x = 0; x < col; x++) {
+      if (grid[y][x] === null) {
+        filled = false;
+        break;
+      }
     }
-}
+    if (filled) {
+      // スコアを更新し、最新のスコアを渡す
+      score += 100;
+      updateScoreDisplay(score);
+      // 該当行を消去し、上の行を下へシフト
+      for (let y2 = y; y2 > 0; y2--) {
+        for (let x = 0; x < col; x++) {
+          grid[y2][x] = grid[y2 - 1][x];
+        }
+      }
+      // 一番上の行をクリア
+      for (let x = 0; x < col; x++) {
+        grid[0][x] = null;
+      }
+      // 行がシフトするため、同じ y 番号の行を再チェック
+      y++;
+    }
+  }
+ }
