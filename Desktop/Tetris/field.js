@@ -1,17 +1,20 @@
-// Blockクラス: テトリスの最小単位である1つのブロックを表現するクラス
-class Block {
-  // コンストラクタ: ブロックの位置 (x, y) を初期化する
-  constructor(x, y) {
-    this.x = x; // ブロックの横位置（列番号）
-    this.y = y; // ブロックの縦位置（行番号）
+export class Field {
+  constructor(ctx, rows = 20, cols = 10) {
+    this.ctx = ctx;
+    this.rows = rows;
+    this.cols = cols;
+    // 2D 配列（グリッド）を初期化。初期値は null
+    this.grid = Array.from({ length: rows }, () => Array(cols).fill(null));
   }
 
-  // drawメソッド: ブロックをキャンバス上に描画する
-  draw(ctx, blockSize) {
-    ctx.fillStyle = "blue"; // ブロックの色を設定
-    ctx.fillRect(this.x * blockSize, this.y * blockSize, blockSize, blockSize); // ブロックを描画
+  draw(blockSize) {
+    for (let y = 0; y < this.rows; y++) {
+      for (let x = 0; x < this.cols; x++) {
+        if (this.grid[y][x] !== null) {
+          this.ctx.fillStyle = this.grid[y][x];
+          this.ctx.fillRect(x * blockSize, y * blockSize, blockSize, blockSize);
+        }
+      }
+    }
   }
 }
-
-// Named Export に変更
-export { Block };
