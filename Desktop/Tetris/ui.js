@@ -24,32 +24,40 @@ export function updateNextMinoDisplay(nextMino) {
     }
 }
 export function renderField(field, currentMino, canvasContext) {
-    const blockSize = 30; // 各ブロックのサイズ
-    const canvasWidth = field[0].length * blockSize; // キャンバスの幅
-    const canvasHeight = field.length * blockSize; // キャンバスの高さ
-
+    const grid = field && field.grid ? field.grid : field;
+    const blockSize = field.blockSize || 30;
+  
+    if (!grid || !grid[0]) {
+      console.error("grid is not properly defined!", grid);
+      return;
+    }
+    const canvasWidth = grid[0].length * blockSize;
+    const canvasHeight = grid.length * blockSize;
+  
     // キャンバスをクリア
     canvasContext.clearRect(0, 0, canvasWidth, canvasHeight);
-
-    // フィールドを描画
-    for (let y = 0; y < field.length; y++) {
-        for (let x = 0; x < field[y].length; x++) {
-            if (field[y][x] !== null) {
-                canvasContext.fillStyle = field[y][x];
-                canvasContext.fillRect(x * blockSize, y * blockSize, blockSize, blockSize);
-            }
+  
+    // フィールドの固定ブロックを描画
+    for (let y = 0; y < grid.length; y++) {
+      for (let x = 0; x < grid[y].length; x++) {
+        if (grid[y][x] !== null) {
+          canvasContext.fillStyle = grid[y][x];
+          canvasContext.fillRect(x * blockSize, y * blockSize, blockSize, blockSize);
         }
+      }
     }
-
-    // 現在のミノを描画
-    if (currentMino && currentMino.blocks) {
-        canvasContext.fillStyle = currentMino.color;
-        for (let block of currentMino.blocks) {
-            const x = block.x + currentMino.x;
-            const y = block.y + currentMino.y;
-            canvasContext.fillRect(x * blockSize, y * blockSize, blockSize, blockSize);
-        }
+  
+    // 現在のミノ（テトリミノ）を描画
+    if (currentMino && currentMino.shape) {
+      const currentShape = currentMino.shape[currentMino.rotation]; // 現在の回転状態の座標配列
+      canvasContext.fillStyle = currentMino.color;
+      for (let block of currentShape) {
+        // block は [dx, dy] の配列
+        const x = currentMino.x + block[0];
+        const y = currentMino.y + block[1];
+        canvasContext.fillRect(x * blockSize, y * blockSize, blockSize, blockSize);
+      }
     } else {
-        console.error("Current mino is not properly defined!");
+      console.error("Current mino is not properly defined!");
     }
-}
+  }
