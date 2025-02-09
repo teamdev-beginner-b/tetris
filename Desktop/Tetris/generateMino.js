@@ -6,6 +6,7 @@ export function generateMino() {
 
     return {
         shape: block.shape,
+        blocks: block.shape, 
         color: block.color,
         rotation: 0,
         x: 3, // 初期位置（横方向の中央）
