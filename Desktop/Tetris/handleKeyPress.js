@@ -1,25 +1,37 @@
-import { moveMino, rotateMino } from "./movement.js";
+import { checkCollision } from "./collision.js";
 
-// キーボード入力を処理する関数
-// 引数:
-// - event: キーボードイベントオブジェクト
-// - mino: 現在のミノオブジェクト（位置と回転情報を保持）
-// - field: 現在のフィールド情報（衝突判定などで利用）
 export function handleKeyPress(event, mino, field) {
-  const key = event.key; // 押されたキーを取得
+  const newMino = { ...mino };
 
-  // ユーザーのキー入力に応じて、ミノの操作を実行
-  switch (key) {
-    case "ArrowLeft": // 左矢印キー
-      return moveMino(mino, "left"); // 左に移動
-    case "ArrowRight": // 右矢印キー
-      return moveMino(mino, "right"); // 右に移動
-    case "ArrowDown": // 下矢印キー
-      return moveMino(mino, "down"); // 下に移動
-    case "ArrowUp": // 上矢印キー
-      return rotateMino(mino); // ミノを回転
+  switch (event.key) {
+    case "ArrowLeft":
+      newMino.x--;
+      if (checkCollision(newMino, field)) {
+        newMino.x++; // 衝突するなら元に戻す
+      }
+      break;
+    case "ArrowRight":
+      newMino.x++;
+      if (checkCollision(newMino, field)) {
+        newMino.x--; // 衝突するなら元に戻す
+      }
+      break;
+    case "ArrowDown":
+      newMino.y++;
+      if (checkCollision(newMino, field)) {
+        newMino.y--; // 衝突するなら元に戻す
+      }
+      break;
+      case " ":
+        // 回転処理：回転状態を進める
+        newMino.rotation = (newMino.rotation + 1) % newMino.shape.length;
+        if (checkCollision(newMino, field)) {
+          // 衝突する場合は回転を元に戻す
+          newMino.rotation = (newMino.rotation - 1 + newMino.shape.length) % newMino.shape.length;
+        }
+        break;
     default:
-      console.log("未対応のキー: " + key);
-      return mino; // 変更なし
+      return mino;
   }
+  return newMino;
 }
